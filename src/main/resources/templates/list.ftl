@@ -1,3 +1,4 @@
+[#ftl]
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -7,21 +8,21 @@
 </head>
 <body>
 <h1>Můj blog</h1>
-<#list posts.content as post>
+[#list posts as post]
+    <div>
+        <h2>${post.title}</h2>
+        <p>${post.perex?no_esc}</p>
+        <p><a href="/post/${post.slug}">Přečíst</a></p>
+        <p>${post.published} | ${post.author}</p>
+    </div>
+[/#list]
 <div>
-    <h2>${post.title}</h2>
-    <p>${post.perex?no_esc}</p>
-    <p><a href="/post/${post.slug}">Přečíst</a></p>
-    <p>${post.published} | ${post.author}</p>
-</div>
-</#list>
-<div>
-    <#if posts.hasPrevious>
-    <a href="/?page=${posts.number - 1}">Předchozí</a>
-</#if>
-<#if posts.hasNext>
-<a href="/?page=${posts.number + 1}">Další</a>
-</#if>
+    [#if posts.hasPrevious()]
+        <a href="/?page=${posts.number - 1}">Předchozí</a>
+    [/#if]
+    [#if posts.hasNext()]
+        <a href="/?page=${posts.number + 1}">Další</a>
+    [/#if]
 </div>
 </body>
 </html>
