@@ -5,19 +5,28 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String slug;
+    private String slug; // část URL za /post/, hezká URL identifikace zápisku
     private String author;
     private String title;
-    private String perex;
-    private String body;
-    private LocalDate published;
+    private String perex; // perex, HTML kód prvního odstavce zápisku
+    private String body; // pokračování zápisku za perexem, HTML kód
+    private Date published;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getSlug() {
         return slug;
@@ -59,11 +68,11 @@ public class Post {
         this.body = body;
     }
 
-    public LocalDate getPublished() {
+    public Date getPublished() {
         return published;
     }
 
-    public void setPublished(LocalDate published) {
+    public void setPublished(Date published) {
         this.published = published;
     }
 }

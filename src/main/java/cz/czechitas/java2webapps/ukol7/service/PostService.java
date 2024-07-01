@@ -2,26 +2,32 @@ package cz.czechitas.java2webapps.ukol7.service;
 
 import cz.czechitas.java2webapps.ukol7.entity.Post;
 import cz.czechitas.java2webapps.ukol7.repository.PostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class PostService {
     private final PostRepository postRepository;
 
+    @Autowired
     public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
 
-    public Page<Post> list(Pageable pageable) {
-        return postRepository.findAllByPublishedBeforeOrderByPublishedDesc(pageable, LocalDate.now());
+    public List<Post> findPostBySlug(String slug) {
+        return (List<Post>) postRepository.findBySlug(slug);
+    }
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
     }
 
-    public Post singlePost(String slug) {
-        return postRepository.findBySlug(slug);
+    public Page<Post> list() {
+        Date currentDate = new Date(); // Aktuální datum
+        return postRepository.findAllByPublishedBeforeOrderByPublishedDesc(currentDate, PageRequest.of(0, 20));
     }
 }
